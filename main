@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  web:
+    image: python:3.9
+    volumes:
+      - ./app:/app
+    command: python /app/app.py
+    ports:
+      - "5000:5000"
+    depends_on:
+      - api
+
+  api:
+    image: tiangolo/uvicorn-gunicorn-fastapi:python3.9
+    volumes:
+      - ./app:/app
+    command: uvicorn app:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
